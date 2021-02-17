@@ -1,6 +1,12 @@
 # Wiki (wiki-v1)
 
-Link [https://giovaneverbinnen.github.io/wiki-v1/](https://giovaneverbinnen.github.io/wiki-v1/).
+###Projeto Rodando [https://wiki-v1.netlify.app/](https://wiki-v1.netlify.app/).
+
+---
+
+###Link Instalção Local [https://giovaneverbinnen.github.io/wiki-v1/](https://giovaneverbinnen.github.io/wiki-v1/).
+
+
 A Quasar Framework app
 
 ### You need install quasar/cli to use quasar commands
