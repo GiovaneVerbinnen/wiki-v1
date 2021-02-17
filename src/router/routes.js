@@ -10,6 +10,12 @@ const routes = [
   {
     path: '/View', component: () => import('pages/ListUsers.vue')
   },
+  {
+    path: '/Edit', component: () => import('pages/EditUser.vue')
+  },
+  {
+    path: '/Create', component: () => import('pages/CreateUser.vue')
+  },
 
   // Always leave this as last one,
   // but you can also remove it

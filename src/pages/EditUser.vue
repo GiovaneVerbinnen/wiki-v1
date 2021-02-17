@@ -1,18 +1,7 @@
 <template>
   <section class="users-container">
-    <div
-      v-if="this.users.length === 0"
-      class="text-h5 text-white q-pa-md items-center"
-      style="width: 100vw"
-    >
-      <p class="text-center">Não existem resultados 😥</p>
-    </div>
-    <div v-if="this.users" class="row">
-      <ul
-        v-for="(user, index) in users"
-        :key="user.id"
-        class="my-card q-gutter-md"
-      >
+    <div class="q-pa-md row items-center q-gutter-md">
+      <ul v-for="(user, index) in users" :key="user.id" class="my-card">
         <transition name="fade" mode="out-in">
           <div v-if="users.length == 0">Nada</div>
           <q-card class="my-card">
@@ -44,44 +33,9 @@
         </transition>
       </ul>
     </div>
-    <!-- NOT WORKING YET -->
-    <!-- <div v-else class="q-pa-md flex flex-center">
-      <q-circular-progress
-        reverse
-        indeterminate
-        size="50px"
-        color="light-blue"
-        class="q-ma-md"
-      />
-    </div> -->
-    <!-- <div class="q-pa-md" v-else>
-      <q-card style="max-width: 300px">
-        <q-item>
-          <q-item-section avatar>
-            <q-skeleton type="QAvatar" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>
-              <q-skeleton type="text" />
-            </q-item-label>
-            <q-item-label caption>
-              <q-skeleton type="text" />
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-card-actions align="right" class="q-gutter-md">
-          <q-skeleton type="QBtn" />
-          <q-skeleton type="QBtn" />
-        </q-card-actions>
-      </q-card>
-    </div> -->
-
-    <!-- PAGINATION -->
-    <div class="pagination">
+    <div class="q-pa-lg flex flex-center">
       <q-pagination
-        color="blue-10"
+        color="teal"
         v-model="current"
         :max="total_pages"
         @click="getUsers()"
@@ -97,10 +51,9 @@ import Header from "../components/Header.vue";
 
 export default {
   components: { Header },
-  name: "ListUsers",
+  name: "EditUser",
   data() {
     return {
-      erroResponse: false,
       users: null,
       current: 1,
       total_pages: 1,
@@ -123,22 +76,6 @@ export default {
           console.log(r["data"]);
           this.users = r["data"].data;
           this.total_pages = r["data"].total_pages + 1;
-        })
-        .catch((error) => {
-          if (error.response) {
-            this.erroResponse = true;
-            console.log(
-              "Ocorreu um erro no carregamento :/",
-              error.response.data
-            );
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error", error.message);
-          }
-          console.log(error.config);
         });
     },
     editUser() {
@@ -164,24 +101,6 @@ export default {
 }
 ul li {
   list-style: none;
-}
-ul {
-  margin: 0;
-  padding: 0;
-}
-.users-container {
-  max-width: 100vw;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-self: start;
-  align-items: center;
-}
-.pagination {
-  margin: 0 auto;
-}
-.my-card {
-  width: 250px;
 }
 </style>
 

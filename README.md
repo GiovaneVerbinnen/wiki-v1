@@ -2,6 +2,11 @@
 
 A Quasar Framework app
 
+### You need install quasar/cli to use quasar commands
+```bash
+yarn global add @quasar/cli
+```
+
 ## Install the dependencies
 ```bash
 yarn
