@@ -98,10 +98,14 @@ import Header from "../components/Header.vue";
 export default {
   components: { Header },
   name: "ListUsers",
+  created() {
+    this.DB();
+    this.populateDB();
+  },
   data() {
     return {
+      users:[],
       erroResponse: false,
-      users: null,
       current: 1,
       total_pages: 1,
       deleted: [],
@@ -116,13 +120,22 @@ export default {
     };
   },
   methods: {
-    getUsers() {
+    DB() {
+        var DB = window.localStorage;
+        console.log('==- Definindo armazenamento -==')
+    },
+    populateDB() {
       axios
-        .get(`https://reqres.in/api/users?page=${this.current}`)
+        .get(`https://reqres.in/api/users?page=1`)
         .then((r) => {
-          console.log(r["data"]);
-          this.users = r["data"].data;
-          this.total_pages = r["data"].total_pages + 1;
+            var raw = r["data"]
+            console.log('raw: ',r["data"])
+            console.log('==- populando banco -==');
+            console.log(raw.data[0].id, raw.data[0].email );
+            // localStorage.setItem(raw.data[0].id, raw.data[0].email);
+            localStorage.setItem('users', JSON.stringify(raw.data));
+            // localStorage.setItem (this.r.data.name)
+        //  DB.setItem(this.r.data.id, this.r.data.name)
         })
         .catch((error) => {
           if (error.response) {
@@ -148,9 +161,7 @@ export default {
       this.deleted = this.users.slice(index, 1);
     },
   },
-  created() {
-    this.getUsers();
-  },
+
 };
 </script>
 
