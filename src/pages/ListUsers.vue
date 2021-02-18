@@ -1,48 +1,49 @@
 <template>
-  <section class="users-container">
-    <div
+  <section class="row">
+    <!-- <div
       v-if="this.users.length === 0"
       class="text-h5 text-white q-pa-md items-center"
       style="width: 100vw"
     >
       <p class="text-center">Não existem resultados 😥</p>
-    </div>
-    <div v-if="this.users" class="row">
-      <ul
-        v-for="(user, index) in users"
-        :key="user.id"
-        class="my-card q-gutter-md"
+    </div> -->
+
+    <div v-for="(user, index) in users" :key="user.id" class="q-pa-md">
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
       >
-        <transition name="fade" mode="out-in">
-          <div v-if="users.length == 0">Nada</div>
-          <q-card class="my-card">
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar>
-                  <img :src="user.avatar" alt="" class="rounded-borders" />
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label
-                  >{{ user.id }} • {{ user.first_name }}
-                  {{ user.last_name }}</q-item-label
-                >
-                <q-item-label caption>{{ user.email }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-card-actions align="around">
-              <q-btn
-                @click="deleteUser(user.id, index)"
-                color="red"
-                label="Excluir"
-                icon="delete"
-                flat
-              />
-              <q-btn color="warning" label="Editar" icon="create" flat />
-            </q-card-actions>
-          </q-card>
-        </transition>
-      </ul>
+        <q-card class="my-card">
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar>
+                <img :src="user.avatar" alt="" class="rounded-borders" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label
+                >{{ user.id }} • {{ user.first_name }}
+                {{ user.last_name }}</q-item-label
+              >
+              <q-item-label caption>{{ user.email }}</q-item-label>
+              <q-item-label caption>
+                <q-badge outline color="orange" :label="user.id"
+              /></q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-card-actions align="around">
+            <q-btn
+              @click="deleteUser(user.id, index)"
+              color="red"
+              label="Excluir"
+              icon="delete"
+              flat
+            />
+            <q-btn color="warning" label="Editar" icon="create" flat />
+          </q-card-actions>
+        </q-card>
+      </transition>
     </div>
     <!-- NOT WORKING YET -->
     <!-- <div v-else class="q-pa-md flex flex-center">
@@ -79,15 +80,15 @@
     </div> -->
 
     <!-- PAGINATION -->
-    <div class="pagination">
+    <!-- <div class="pagination">
       <q-pagination
         color="blue-10"
         v-model="current"
         :max="total_pages"
-        @click="getUsers()"
+        @click="data()"
       >
       </q-pagination>
-    </div>
+    </div> -->
   </section>
 </template>
 <script>
@@ -96,7 +97,6 @@ import { Notify } from "quasar";
 import Header from "../components/Header.vue";
 
 export default {
-  components: { Header },
   name: "ListUsers",
   created() {
     this.DB();
@@ -104,7 +104,8 @@ export default {
   },
   data() {
     return {
-      users:[],
+      users: [],
+      user: {},
       erroResponse: false,
       current: 1,
       total_pages: 1,
@@ -121,21 +122,30 @@ export default {
   },
   methods: {
     DB() {
-        var DB = window.localStorage;
-        console.log('==- Definindo armazenamento -==')
+      var DB = window.localStorage;
+      console.log("==- Definindo armazenamento -==");
     },
     populateDB() {
       axios
         .get(`https://reqres.in/api/users?page=1`)
         .then((r) => {
-            var raw = r["data"]
-            console.log('raw: ',r["data"])
-            console.log('==- populando banco -==');
-            console.log(raw.data[0].id, raw.data[0].email );
-            // localStorage.setItem(raw.data[0].id, raw.data[0].email);
-            localStorage.setItem('users', JSON.stringify(raw.data));
-            // localStorage.setItem (this.r.data.name)
-        //  DB.setItem(this.r.data.id, this.r.data.name)
+          var raw = r["data"];
+          console.log("==- populando banco -==");
+          // localStorage.setItem(raw.data[0].id, raw.data[0].email);
+          localStorage.setItem("users", JSON.stringify(raw.data));
+          var newUser = { email: "giovane", id: "9" };
+          this.users = JSON.parse(localStorage.getItem("users"));
+          // localStorage.setItem(
+          //   "newUser",
+          //   JSON.stringify(newUser)
+          // );
+          this.users.push(newUser);
+          console.log(this.users);
+          localStorage.setItem("users", JSON.stringify(this.users));
+          for (this.user in this.users) {
+          }
+          // localStorage.setItem (this.r.data.name)
+          //  DB.setItem(this.r.data.id, this.r.data.name)
         })
         .catch((error) => {
           if (error.response) {
@@ -158,10 +168,16 @@ export default {
       console.log("--- Edit ---");
     },
     deleteUser(id, index) {
-      this.deleted = this.users.slice(index, 1);
+      index = parseInt(index);
+      console.log("--- deletando user ---");
+      console.log(this.users.splice(index, 1));
+      this.$q.notify({
+        message: `Usuário de id: ${id} deletado! ⚰️`,
+        color: "negative",
+      });
+      console.log(id, ("index: ", index), this.users);
     },
   },
-
 };
 </script>
 
@@ -185,8 +201,6 @@ ul {
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  align-self: start;
-  align-items: center;
 }
 .pagination {
   margin: 0 auto;

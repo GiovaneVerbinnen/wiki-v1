@@ -1,19 +1,22 @@
 <template>
-    <q-layout view="lHh lpr lFf" >
+  <q-layout view="lHh lpr lFf">
     <q-page-container>
-      <router-view />
+      <Header />
+      <router-view></router-view>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-
+import Header from "../components/Header";
 export default {
-  name: 'MainLayout',
-  data () {
-    return {
-
-    }
-  }
-}
+  components: { Header },
+  name: "MainLayout",
+  data() {
+    return {};
+  },
+};
 </script>
+
+<style>
+</style>

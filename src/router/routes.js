@@ -1,21 +1,26 @@
+import MainLayout from 'layouts/MainLayout'
+import View from 'pages/ListUsers.vue'
+import Edit from 'pages/EditUser.vue'
+import Create from 'pages/CreateUser.vue'
 
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue') },
+      {
+        path: 'view', component: View
+      },
+      {
+        path: 'edit', component: Edit
+      },
+      {
+        path: 'create', component: Create
+      },
     ]
   },
-  {
-    path: '/View', component: () => import('pages/ListUsers.vue')
-  },
-  {
-    path: '/Edit', component: () => import('pages/EditUser.vue')
-  },
-  {
-    path: '/Create', component: () => import('pages/CreateUser.vue')
-  },
+
 
   // Always leave this as last one,
   // but you can also remove it

@@ -1,15 +1,20 @@
 <template>
-  <q-page class="flex flex-start">
-    <Header />
-    <ListUsers />
+  <q-page class="flex justify-center">
+    <h3 class="">
+      Clique em um dos Menus para Listar ou Cadastrar novos usuários!
+    </h3>
+    <div class="row">
+      <img
+        src="../assets/charts.svg"
+        style="max-width: 800px; height: 500px"
+        class=""
+      />
+    </div>
   </q-page>
 </template>
 
 <script>
-import ListUsers from "../pages/ListUsers.vue";
-import Header from "../components/Header.vue";
 export default {
-  components: { ListUsers, Header },
   name: "PageIndex",
   data() {
     return {
@@ -20,13 +25,7 @@ export default {
 </script>
 
 <style scoped>
-main {
-  /*
-    background: #000428;  
-    background: -webkit-linear-gradient(to bottom, #004e92, #000428);  
-    background: linear-gradient(to bottom, #004e92, #000428);
-  */
-
-  background: linear-gradient(to top, #00d2ff, #3a7bd5);
+img {
+  max-width: 100%;
 }
 </style>
